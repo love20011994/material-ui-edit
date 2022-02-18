@@ -2,7 +2,7 @@ import React,{ useContext, useEffect, useState } from 'react';
 import ContextData from '../context/context';
 import EditEmployee from './EditEmployee';
 
-function AddEmployee() {
+function AddEmployee(props) {
    const recivedData=useContext(ContextData)
     const [employeeDetails, setEmployeeDetails] = useState({
         fullName:'',
@@ -19,6 +19,9 @@ function AddEmployee() {
     const [designationError, setdesignationError] = useState(false);
     const [salaryError, setSalaryError] = useState(false);
     const [ageError, setAgeError] = useState(false);
+    const closeModal = () => {
+        props.history.push("/tableshow");
+      };
 
     const handleSubmit=(event)=>{
         event.preventDefault()
@@ -26,6 +29,8 @@ function AddEmployee() {
         const isDesignationValid=validateDesignation(employeeDetails.phonenumber)
         const isSalaryValid=validateSalary(employeeDetails.email)
         const isAgeValid=validateAge(employeeDetails.age)
+        props.history.push("/tableshow");
+
 
         if (true){
           const array= [...recivedData.storeData]
@@ -38,7 +43,8 @@ function AddEmployee() {
                 email:''
                
             })
-            alert('Details Added Successfully')
+            // alert('Details Added Successfully')
+            props.history.push('/tableshow')
         }else {
             console.error('invalid data');
         }
@@ -113,7 +119,9 @@ function AddEmployee() {
     }
 
   return <div class='division'>
-        <form class="row g-2 form shadow rounded " style={{width:'500px', marginLeft:'450px', marginTop:'20px'}}onSubmit={(event)=>{handleSubmit(event)}}>
+        <form 
+        
+        id = "love" class="row g-2 form shadow rounded " style={{width:'500px', marginLeft:'450px', marginTop:'20px'}} onSubmit={handleSubmit}>
             <div class="form-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Employee Details</h5>
             </div>
@@ -143,9 +151,14 @@ function AddEmployee() {
             </div> */}
 
             <div class="button">
-                <button  class="btn btn-primary " type="submit">Submit </button>
+                <button  class="btn btn-primary " type="submit"onSubmit={(event)=>{handleSubmit(event)}} >Submit </button>
+               <div><button style={{position:"relative",left:"125px",bottom:"30px"}} class="btn btn-primary " onClick={()=>document.getElementById("love").style="display:none"} >close </button>
+</div> 
             </div>
+
         </form>
+       
+
   </div>;
 }
 
